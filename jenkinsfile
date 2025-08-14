@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        # Force Java 21 for Maven
+        // Force Java 21 for Maven
         JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
         PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${PATH}"
 
