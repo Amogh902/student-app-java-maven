@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        # Force Java 21 for Maven
         JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
         PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${PATH}"
 
@@ -18,9 +19,15 @@ pipeline {
             }
         }
 
-        stage('Verify Java & Maven Versions') {
+        stage('Debug Java Environment') {
             steps {
+                sh 'echo "==== JAVA HOME ===="'
+                sh 'echo $JAVA_HOME'
+                sh 'echo "==== Which Java ===="'
+                sh 'which java'
                 sh 'java -version'
+                sh 'echo "==== Which Maven ===="'
+                sh 'which mvn'
                 sh 'mvn -v'
             }
         }
