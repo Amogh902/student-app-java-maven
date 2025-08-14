@@ -1,43 +1,26 @@
 pipeline {
     agent any
-
+ 
     environment {
-        // Force Java 21 for Maven
-        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
-        PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${PATH}"
-
         SERVER_IP    = '54.160.197.135'
         SSH_CRED_ID  = 'student-app-maven-id'
         TOMCAT_PATH  = '/var/lib/tomcat10/webapps'
         TOMCAT_SVC   = 'tomcat10'
     }
-
+ 
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Amogh902/student-app-java-maven.git'
             }
         }
-
-        stage('Debug Java Environment') {
-            steps {
-                sh 'echo "==== JAVA HOME ===="'
-                sh 'echo $JAVA_HOME'
-                sh 'echo "==== Which Java ===="'
-                sh 'which java'
-                sh 'java -version'
-                sh 'echo "==== Which Maven ===="'
-                sh 'which mvn'
-                sh 'mvn -v'
-            }
-        }
-
+ 
         stage('Build WAR') {
             steps {
                 sh 'mvn clean package'
             }
         }
-
+ 
         stage('Deploy to Tomcat') {
             steps {
                 sshagent([SSH_CRED_ID]) {
@@ -55,7 +38,7 @@ pipeline {
             }
         }
     }
-
+ 
     post {
         success {
             echo "App deployed! Visit: http://${SERVER_IP}:8080/"
