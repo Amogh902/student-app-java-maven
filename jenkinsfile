@@ -1,12 +1,10 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK21'        // Name from Jenkins Global Tool Configuration
-        maven 'Maven3'     // Optional if Maven is also managed in Jenkins
-    }
-
     environment {
+        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${PATH}"
+
         SERVER_IP    = '54.160.197.135'
         SSH_CRED_ID  = 'student-app-maven-id'
         TOMCAT_PATH  = '/var/lib/tomcat10/webapps'
